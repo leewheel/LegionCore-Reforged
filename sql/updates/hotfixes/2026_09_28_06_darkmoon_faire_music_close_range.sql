@@ -34,4 +34,5 @@ INSERT INTO `hotfix_data` (`Id`, `TableHash`, `RecordID`, `Timestamp`, `Deleted`
  (9000832,  908293937,  98011, 0, 0),   -- SoundKit
  (9000833, 3266400455, 252011, 0, 0);   -- SoundKitEntry
 
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = 318;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = 318;

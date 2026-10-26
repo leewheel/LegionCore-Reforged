@@ -10,4 +10,5 @@ DELETE FROM `hotfix_data` WHERE `Id` = 9100146;
 INSERT INTO `hotfix_data` (`Id`, `TableHash`, `RecordID`, `Timestamp`, `Deleted`) VALUES
 (9100146, 35137211, 5421861, 0, 0);
 
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = `hotfix_cache_id` + 1;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = `hotfix_cache_id` + 1;

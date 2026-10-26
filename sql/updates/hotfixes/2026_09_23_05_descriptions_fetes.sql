@@ -6,4 +6,5 @@
 -- the client asks for everything anew.
 --
 -- Nothing else to fix: row 9000802 already exists and its table hash is right.
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = 206;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = 206;

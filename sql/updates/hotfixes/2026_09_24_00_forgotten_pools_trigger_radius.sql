@@ -12,4 +12,5 @@ INSERT INTO `area_trigger` (`PosX`, `PosY`, `PosZ`, `Radius`, `BoxLength`, `BoxW
 DELETE FROM `hotfix_data` WHERE `TableHash` = 441483745 AND `RecordID` = 216;
 INSERT INTO `hotfix_data` (`Id`, `TableHash`, `RecordID`, `Timestamp`, `Deleted`) VALUES (9000784, 441483745, 216, 0, 0);
 
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = 214;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = 214;

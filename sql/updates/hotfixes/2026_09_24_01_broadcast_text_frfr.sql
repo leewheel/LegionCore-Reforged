@@ -132573,4 +132573,5 @@ Je pense que nous pouvons apprendre beaucoup de lui, tant que nous restons sur n
 (147415, 'frFR', '<Souvenir des répercussions de la Plaie en Silithus>', '<Souvenir des répercussions de la Plaie en Silithus>', 26124),
 (147416, 'frFR', '<Souvenir des répercussions de la Plaie en Silithus>', '<Souvenir des répercussions de la Plaie en Silithus>', 26124);
 
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = 215;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = 215;

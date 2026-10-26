@@ -37,4 +37,5 @@ INSERT INTO `hotfix_data` (`Id`, `TableHash`, `RecordID`, `Timestamp`, `Deleted`
 (9100191, 2398034583, 329, 0, 0),
 (9100192, 2398034583, 348, 0, 0);
 
-UPDATE `world_legion`.`version` SET `hotfix_cache_id` = `hotfix_cache_id` + 1;
+-- By leewheel 20261026 上游写死 world_legion 库名，本项目 world 库实际名为 world
+UPDATE `world`.`version` SET `hotfix_cache_id` = `hotfix_cache_id` + 1;
