@@ -20,7 +20,9 @@
 #include "Session.h"
 #include <atomic>
 #include <boost/asio/deadline_timer.hpp>
-#include <boost/asio/io_service.hpp>
+// boost 1.91 已移除 boost/asio/io_service.hpp，io_service 已被 io_context 取代 //By leewheel 20261026
+#include <boost/asio/io_context.hpp>
+// End By leewheel
 #include <boost/asio/ip/address.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <mutex>

@@ -64,6 +64,16 @@ target_compile_options(trinity-compile-option-interface
   INTERFACE
     /MP)
 
+# 源码按 UTF-8 解释。//By leewheel 20261026
+# MSVC 默认按系统代码页（中文 Windows 上是 GBK）解释源文件，
+# 源码里的 UTF-8 中文注释/字符串会被误读，C4819/C2001 一类错误就是这么来的。
+# /utf-8 同时指定执行字符集与源字符集均为 UTF-8（MSVC 2015 update 2+ 支持，本项目要求 2017+）。
+target_compile_options(trinity-compile-option-interface
+  INTERFACE
+    /utf-8)
+message(STATUS "MSVC: Enabled UTF-8 source encoding (/utf-8)")
+# End By leewheel
+
 if((PLATFORM EQUAL 64) OR (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0.23026.0) OR BUILD_SHARED_LIBS)
   # Enable extended object support
   target_compile_options(trinity-compile-option-interface

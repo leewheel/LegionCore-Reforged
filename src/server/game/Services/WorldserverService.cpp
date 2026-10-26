@@ -101,8 +101,10 @@ uint32 Battlenet::GameUtilitiesService::HandleRealmJoinRequest(std::unordered_ma
 
     auto realmAddress = params.find("Param_RealmAddress");
     if (realmAddress != params.end())
-        return sRealmList->JoinRealm(uint32(realmAddress->second->uint_value()), realm.Build, boost::asio::ip::address::from_string(_session->GetRemoteAddress()), _session->GetRealmListSecret(),
+        // boost 1.91 已移除 boost::asio::ip::address::from_string，改用 boost::asio::ip::make_address //By leewheel 20261026
+        return sRealmList->JoinRealm(uint32(realmAddress->second->uint_value()), realm.Build, boost::asio::ip::make_address(_session->GetRemoteAddress()), _session->GetRealmListSecret(),
             _session->GetSessionDbcLocale(), _session->GetOS(), _session->GetAccountName(), response);
+        // End By leewheel
 
     return ERROR_WOW_SERVICES_INVALID_JOIN_TICKET;
 }

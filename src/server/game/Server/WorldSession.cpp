@@ -886,7 +886,9 @@ void WorldSession::SendConnectToInstance(WorldPackets::Auth::ConnectToSerial ser
 {
     TC_LOG_INFO("network.opcode", "WorldSession::SendConnectToInstance");
 
-    auto instanceAddress = realm.GetAddressForClient(boost::asio::ip::address::from_string(GetRemoteAddress()));
+    // boost 1.91 已移除 boost::asio::ip::address::from_string，改用 boost::asio::ip::make_address //By leewheel 20261026
+    auto instanceAddress = realm.GetAddressForClient(boost::asio::ip::make_address(GetRemoteAddress()));
+    // End By leewheel
 
     _instanceConnectKey.Fields.AccountId = GetAccountId();
     _instanceConnectKey.Fields.ConnectionType = CONNECTION_TYPE_INSTANCE;

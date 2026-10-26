@@ -26,6 +26,9 @@
 #include "StartProcess.h"
 #include "UpdateFetcher.h"
 #include <boost/filesystem/operations.hpp>
+// boost 1.85+ 把 directory_iterator 从 operations.hpp 拆到 directory.hpp，只 include operations.hpp 会找不到它 //By leewheel 20261026
+#include <boost/filesystem/directory.hpp>
+// End By leewheel
 #include <algorithm>
 #include <fstream>
 #include <iostream>

@@ -497,6 +497,9 @@ class TC_GAME_API Spell
         bool IsAutoRepeat() const { return m_autoRepeat; }
         void SetAutoRepeat(bool rep) { m_autoRepeat = rep; }
         void ReSetTimer() { m_timer = m_casttime > 0 ? m_casttime : 0; }
+        // 剩余施法/引导时间（毫秒）。上游 Draenor 脚本（instance_auchindoun.cpp）依赖此接口，本核缺失导致编译失败，按 m_timer 语义补上 //By leewheel 20261026
+        int32 GetRemainingCastTime() const { return m_timer; }
+        // End By leewheel
         void SetTriggeredCastFlags(uint32 Flag);
         uint32 GetTriggeredCastFlags() const;
         bool IsNextMeleeSwingSpell() const;

@@ -8,11 +8,33 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+# 本项目固定使用本地 boost 1.92（与 VS 2026 toolset 14.5 精确匹配）。//By leewheel 20261026
+# 无论环境变量 / cache 里 BOOST_ROOT 被设成什么（cmake-gui 老进程里可能还是旧值 1_78_0），
+# 只要本地 1.92 存在就一律以它为准，并直接钉死 Boost_DIR —— 这样 vcpkg 工具链的
+# find_package 劫持（vcpkg.cmake 的 boost wrapper）也无法把 boost 顶回 vcpkg 版本。
+# ⚠️ CMP0144 警告的根因是 find_package 前存在大写 CMake 变量 BOOST_ROOT，vcpkg wrapper
+# 内部 push 的策略域里 cmake_policy / CMAKE_POLICY_DEFAULT 都压不住它 ⇒ 正解是
+# **彻底 unset(BOOST_ROOT)**，搜索路径改由 BOOST_SEARCH_HINTS / Boost_DIR 提供。
+# End By leewheel
+set(_LEEWHEEL_BOOST_PIN_ROOT "C:/local/boost_1_92_0")
+set(_LEEWHEEL_BOOST_PIN_DIR "${_LEEWHEEL_BOOST_PIN_ROOT}/lib64-msvc-14.5/cmake/Boost-1.92.0")
+if(EXISTS "${_LEEWHEEL_BOOST_PIN_DIR}/BoostConfig.cmake")
+  #By leewheel 20261026 钉死 Boost_DIR（config 模式直接用它，优先级高于一切搜索路径）
+  set(Boost_DIR "${_LEEWHEEL_BOOST_PIN_DIR}" CACHE PATH "Pinned local boost 1.92 config directory" FORCE)
+  #End By leewheel
+endif()
+unset(_LEEWHEEL_BOOST_PIN_DIR)
+
 set(BOOST_SEARCH_HINTS)
 if(WIN32)
-  if(DEFINED ENV{BOOST_ROOT})
+  #By leewheel 20261026 环境变量可能指向旧版本（如 1_78_0）；本地 1.92 存在时只认它，
+  # 并且不落成 BOOST_ROOT 变量（见顶部 CMP0144 说明），直接生成 HINTS
+  if(EXISTS "${_LEEWHEEL_BOOST_PIN_ROOT}/lib64-msvc-14.5/cmake")
+    set(BOOST_SEARCH_HINTS "${_LEEWHEEL_BOOST_PIN_ROOT}/lib64-msvc-14.5/cmake")
+  elseif(DEFINED ENV{BOOST_ROOT})
     set(BOOST_ROOT $ENV{BOOST_ROOT})
   endif()
+  #End By leewheel
   if(DEFINED BOOST_ROOT AND MSVC)
     # insert a dot (.) character before last digit of MSVC_TOOLSET_VERSION
     # turn 143 into 14.3
@@ -53,6 +75,11 @@ if (WIN32)
 else()
   set(BOOST_REQUIRED_VERSION 1.74)
 endif()
+
+#By leewheel 20261026 find_package 前彻底清掉大写 BOOST_ROOT（含 cache），消除 CMP0144 警告
+unset(BOOST_ROOT)
+unset(BOOST_ROOT CACHE)
+#End By leewheel
 
 find_package(Boost ${BOOST_REQUIRED_VERSION}
   REQUIRED
